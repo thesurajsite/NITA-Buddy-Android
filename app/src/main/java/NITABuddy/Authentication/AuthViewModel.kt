@@ -16,9 +16,10 @@ class AuthViewModel(private val retrofitService: RetrofitService) : ViewModel() 
     private val _signupResponse = MutableLiveData<SignupResponseDataClass>()
     val signupResponse: LiveData<SignupResponseDataClass> get() = _signupResponse
 
+    private val _loginResponse = MutableLiveData<LoginResponseDataClass>()
+    val loginResponse: LiveData<LoginResponseDataClass> get() = _loginResponse
+
     fun Signup(signupDetails: SignupRequestDataClass){
-
-
         viewModelScope.launch {
             try {
                 val request = signupDetails
@@ -34,6 +35,26 @@ class AuthViewModel(private val retrofitService: RetrofitService) : ViewModel() 
             }
             catch(e:Exception){
                 _signupResponse.postValue(SignupResponseDataClass(false, "Error: ${e.localizedMessage}", ""))
+            }
+        }
+    }
+
+    fun Login(loginDetails: LoginRequestDataClass){
+        viewModelScope.launch {
+            try {
+                val request = loginDetails
+                val response = retrofitService.Login(request)
+
+                if(response.isSuccessful){
+                    val loginResponse = response.body()
+                    _loginResponse.postValue(loginResponse!!)
+                }
+                else{
+                    _loginResponse.postValue(LoginResponseDataClass(false, "Server error", ""))
+                }
+            }
+            catch(e: Exception){
+                _loginResponse.postValue(LoginResponseDataClass(false, "Error: ${e.localizedMessage}", ""))
             }
         }
     }

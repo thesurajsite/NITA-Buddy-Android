@@ -2,6 +2,7 @@ package NITABuddy.Authentication
 
 import NITABuddy.Activities.MainActivity
 import NITABuddy.Authentication.User_SignUp
+import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.SharedPreferences.SharedPreferencesManager
 import android.content.Intent
 import android.os.Bundle
@@ -10,6 +11,7 @@ import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.ViewModelProvider
 import com.android.volley.DefaultRetryPolicy
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -19,83 +21,53 @@ import com.gharaana.nitabuddy.databinding.ActivityUserLoginBinding
 import org.json.JSONObject
 
 class User_Login_Activity : AppCompatActivity() {
+
     lateinit var binding: ActivityUserLoginBinding
     private lateinit var vibrator: Vibrator
-    private lateinit var jsonObject: JSONObject
-    private lateinit var SharedPreferencesManager: SharedPreferencesManager
+    private lateinit var sharedPreferences: SharedPreferencesManager
+    private lateinit var authViewModel: AuthViewModel
 
-    fun <T> addtoRequestQueue(request: Request<T>, timeoutMillis: Int) {
-        request.retryPolicy = DefaultRetryPolicy(
-            timeoutMillis,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT
-        )
-        requestQueue.add(request)
-    }
-
-    private val requestQueue: RequestQueue by lazy {
-        Volley.newRequestQueue(this.applicationContext)
-    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding= ActivityUserLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        val factory = AuthViewModelFactory(RetrofitInstance.retrofitService)
+        authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
         vibrator=getSystemService(VIBRATOR_SERVICE) as Vibrator
-        SharedPreferencesManager= SharedPreferencesManager(this)
+        sharedPreferences= SharedPreferencesManager(this)
 
 
         binding.loginBtn.setOnClickListener {
             vibrator.vibrate(50)
             binding.Progressbar.visibility= View.VISIBLE
 
-            val phoneNo=binding.phoneEt.text.toString()
+            val email=binding.emailEt.text.toString()
             val password= binding.passwordEt.text.toString()
 
-            if(password!="" && phoneNo!=""){
-                jsonObject= JSONObject()
-                jsonObject.put("phoneNo", phoneNo)
-                jsonObject.put("password", password)
+            if(password.isNotBlank() && email.isNotBlank()){
+                binding.Progressbar.visibility = View.VISIBLE
+                val loginData = LoginRequestDataClass(email, password)
+                authViewModel.Login(loginData)
 
-                val url = "https://gharaanah.onrender.com/engineering/login"
-                val request= JsonObjectRequest(
-                    Request.Method.POST, url, jsonObject,
-                    { jsonData ->
-                        binding.Progressbar.visibility = View.INVISIBLE
-                        val action = jsonData.getBoolean("action")
-                        val response = jsonData.getString("response")
+                authViewModel.loginResponse.observe(this) { response->
+                    Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
+                    binding.Progressbar.visibility= View.INVISIBLE
 
-                        if (action == true) {
-                            val token = jsonData.getString("token")
-                            SharedPreferencesManager.updateLoginState(true)
-                            SharedPreferencesManager.updateUserToken(token)
+                    if(response.status==true){
+                        val token = response.token.toString()
+                        sharedPreferences.updateLoginState(true)
+                        sharedPreferences.updateUserToken(token)
 
-                            startActivity(Intent(this, MainActivity::class.java))
-                            finish()
+                        val intent = Intent(this, MainActivity::class.java)
+                        startActivity(intent)
+                        finish()
 
-                            Log.w("login-response", "jsonData= $jsonData jsonObject= $jsonObject")
-                            Log.d(
-                                "login-response",
-                                "action= $action ; response= $response ; token= $token"
-                            )
-                        }
-
-                        Toast.makeText(this, response, Toast.LENGTH_SHORT).show()
-
-                    }, {
-                        binding.Progressbar.visibility = View.INVISIBLE
-                        if (it.message != null) {
-                            Toast.makeText(this, it.message, Toast.LENGTH_SHORT).show()  //line 77
-                            Log.w("login-response", "${it.message}")
-                        }
                     }
-                )
-
-                addtoRequestQueue(request, 120000)
-
+                }
             }
             else{
-                Toast.makeText(this, "Please fill all fields ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Please fill all details ", Toast.LENGTH_SHORT).show()
                 binding.Progressbar.visibility= View.INVISIBLE
             }
         }

@@ -27,9 +27,8 @@ import org.json.JSONObject
 class User_SignUp : AppCompatActivity() {
     lateinit var binding: ActivityUserSignUpBinding
     private lateinit var vibrator: Vibrator
-    private lateinit var signupViewModel: AuthViewModel
+    private lateinit var authViewModel: AuthViewModel
     private lateinit var sharedPreferences: SharedPreferencesManager
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,15 +36,14 @@ class User_SignUp : AppCompatActivity() {
         setContentView(binding.root)
 
         val factory = AuthViewModelFactory(RetrofitInstance.retrofitService)
-        signupViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
+        authViewModel = ViewModelProvider(this, factory)[AuthViewModel::class.java]
         vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
         sharedPreferences= SharedPreferencesManager(this)
-
 
         //Spinner TextView
         spinner()
 
-        binding.getOTPBtn.setOnClickListener {
+        binding.createAccountBtn.setOnClickListener {
             vibrator.vibrate(50)
             val name = binding.nameEt.text.toString()
             val email = binding.emailEt.text.toString()
@@ -61,14 +59,16 @@ class User_SignUp : AppCompatActivity() {
                 Toast.makeText(this, "Please Enter Same Password", Toast.LENGTH_SHORT).show()
             }
             else if(name.isNotBlank() && email.isNotBlank() && year!="Select Year" && phoneNo.isNotBlank() && password.isNotBlank() && branch!="Select Branch" && hostel!="Select Hostel" && enrollmentNo.isNotBlank()) {
+                binding.Progressbar.visibility=View.VISIBLE
                 val signupData = SignupRequestDataClass(email, password, name, enrollmentNo, phoneNo, hostel, branch, year)
-                signupViewModel.Signup(signupData)
+                authViewModel.Signup(signupData)
 
-                signupViewModel.signupResponse.observe(this) { response->
+                authViewModel.signupResponse.observe(this) { response->
                     Toast.makeText(this, "${response.message}", Toast.LENGTH_SHORT).show()
+                    binding.Progressbar.visibility = View.INVISIBLE
 
                     if(response.status==true){
-                        val token = response.token
+                        val token = response.token.toString()
                         sharedPreferences.updateLoginState(true)
                         sharedPreferences.updateUserToken(token)
 

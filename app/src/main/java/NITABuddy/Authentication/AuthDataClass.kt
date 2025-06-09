@@ -12,7 +12,18 @@ data class SignupRequestDataClass(
 )
 
 data class SignupResponseDataClass(
-    val status: Boolean,
-    val message: String,
-    val token: String
+    val status: Boolean?=false,
+    val message: String?="",
+    val token: String?=""
+)
+
+data class LoginRequestDataClass(
+    val Email: String?="",
+    val Password: String?=""
+)
+
+data class LoginResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?="",
+    val token: String?=""
 )

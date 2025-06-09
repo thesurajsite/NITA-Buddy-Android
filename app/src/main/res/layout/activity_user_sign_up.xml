@@ -63,6 +63,7 @@
       android:paddingBottom="5dp"
       android:textColor="@color/black"
       android:textColorHint="@color/black"
+      android:inputType="textEmailAddress"
       android:textSize="25dp" />
 
     <EditText
@@ -225,7 +226,7 @@
 
 
     <Button
-        android:id="@+id/getOTP_btn"
+        android:id="@+id/createAccount_btn"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Create Account"

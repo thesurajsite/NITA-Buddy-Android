@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/blue"
+    tools:context="NITABuddy.Fragments.Profile_Fragment">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="@dimen/_80sdp" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/profileCardView"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            app:cardCornerRadius="@dimen/_100sdp"
+            android:layout_gravity="center"
+            app:cardBackgroundColor="@color/white"
+            app:layout_constraintTop_toTopOf="@id/guideline"
+            app:layout_constraintBottom_toTopOf="@id/guideline"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent">
+
+            <ImageView
+                android:id="@+id/profileImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/profile_icon"/>
+
+        </androidx.cardview.widget.CardView>
+
+
+
+        <FrameLayout
+            android:id="@+id/frameLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:background="@drawable/card_background"
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:paddingBottom="@dimen/_10sdp">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="@dimen/_100sdp">
+
+
+                <TextView
+                    android:id="@+id/name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="- - - -"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_25sdp"
+                    android:textStyle="bold"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_gravity="center"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+                <TextView
+                    android:id="@+id/enrollment_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_25sdp"
+                    android:background="@drawable/custom_input_2"
+                    android:drawableStart="@drawable/enrollment"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_90sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/linearLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    android:gravity="center_horizontal"
+                    app:layout_constraintTop_toBottomOf="@id/enrollment_tv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent">
+
+                    <TextView
+                        android:id="@+id/branch_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginRight="@dimen/_10sdp"
+                        android:background="@drawable/custom_input_2"
+                        android:drawableStart="@drawable/branch"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/Progressbar"
+                        android:layout_weight="1"/>
+
+                    <TextView
+                        android:id="@+id/year_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/black"
+                        android:textSize="@dimen/_18sdp"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/Progressbar"
+                        android:background="@drawable/custom_input_2"
+                        android:drawableStart="@drawable/year"
+                        android:drawablePadding="@dimen/_10sdp"
+                        android:padding="@dimen/_5sdp"
+                        android:layout_weight="1"/>
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/hostel_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:background="@drawable/custom_input_2"
+                    android:drawableStart="@drawable/hostel"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@id/linearLayout"/>
+
+                <TextView
+                    android:id="@+id/phone_tv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:textSize="@dimen/_18sdp"
+                    android:background="@drawable/custom_input_2"
+                    android:drawableStart="@drawable/phone"
+                    android:drawablePadding="@dimen/_10sdp"
+                    android:padding="@dimen/_5sdp"
+                    android:layout_marginTop="@dimen/_20sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:layout_constraintTop_toBottomOf="@id/hostel_tv"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/call_cardView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/green"
+                    app:layout_constraintTop_toBottomOf="@id/phone_tv"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    android:layout_marginTop="@dimen/_12sdp"
+                    android:layout_marginLeft="@dimen/_20sdp"
+                    android:layout_marginRight="@dimen/_20sdp"
+                    app:cardCornerRadius="@dimen/_5sdp">
+
+                    <TextView
+                        android:id="@+id/phoneNo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Call"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        android:textSize="@dimen/_20sdp"
+                        android:drawablePadding="@dimen/_5sdp"
+                        android:layout_marginLeft="@dimen/_5sdp"
+                        android:layout_marginRight="@dimen/_5sdp"
+                        android:layout_marginTop="@dimen/_4sdp"
+                        android:gravity="center_vertical"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_marginBottom="@dimen/_2sdp"/>
+
+                </androidx.cardview.widget.CardView>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </FrameLayout>
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>

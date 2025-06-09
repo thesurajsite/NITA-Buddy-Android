@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="NITABuddy.Fragments.Home_fragment"
+    android:background="@color/blue">
+
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/imageCardView"
+                android:layout_width="@dimen/_270sdp"
+                android:layout_height="@dimen/_270sdp"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:backgroundTint="@color/blue"
+                app:cardCornerRadius="@dimen/_20sdp"
+                android:padding="@dimen/_20sdp"
+                android:layout_marginTop="@dimen/_10sdp">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/nita_buddy"
+                    android:padding="@dimen/_1sdp"/>
+
+            </androidx.cardview.widget.CardView>
+
+            <TextView
+                android:id="@+id/buddyGharaana"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="NITA BUDDY"
+                android:textColor="@color/yellow"
+                android:textSize="@dimen/_20sdp"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/imageCardView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_20sdp"/>
+
+            <TextView
+                android:id="@+id/sloganText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/white"
+                android:text="Your Buddy for everyday ease!"
+                android:textSize="@dimen/_18sdp"
+                app:layout_constraintTop_toBottomOf="@id/buddyGharaana"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="@dimen/_3sdp"/>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/sloganText"
+                android:layout_marginTop="@dimen/_20sdp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="@dimen/_10sdp"
+                android:layout_marginLeft="@dimen/_15sdp"
+                android:layout_marginRight="@dimen/_15sdp">
+
+                <TextView
+                    android:id="@+id/myRequestTextview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Requests for you"
+                    android:layout_marginTop="@dimen/_15sdp"
+                    android:textSize="@dimen/_20sdp"
+                    android:textColor="@color/white"
+                    android:background="@drawable/button_shape"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingLeft="@dimen/_5sdp"
+                    android:paddingRight="@dimen/_5sdp" />
+
+                <ProgressBar
+                    android:id="@+id/ProgressBar"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:indeterminate="true"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginLeft="@dimen/_30sdp"
+                    android:layout_marginRight="@dimen/_30sdp"
+                    style="@style/Widget.AppCompat.ProgressBar.Horizontal" />
+
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/studentRequestRecyclerView"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="@dimen/_50sdp"
+                    android:layout_marginLeft="@dimen/_10sdp"
+                    android:layout_marginRight="@dimen/_10sdp"
+
+                    />
+
+
+
+                <ImageView
+                    android:visibility="gone"
+                    android:id="@+id/nothing_to_show_image"
+                    android:layout_width="@dimen/_200sdp"
+                    android:layout_height="@dimen/_200sdp"
+                    android:src="@drawable/nothing_to_show"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="@dimen/_60sdp"/>
+
+            </androidx.cardview.widget.CardView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </androidx.core.widget.NestedScrollView>
+
+
+
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

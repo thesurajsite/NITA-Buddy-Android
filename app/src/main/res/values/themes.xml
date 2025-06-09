@@ -1,0 +1,28 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Base.Theme.NITAHelpers" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
+    <style name="Theme.NITAHelpers" parent="Base.Theme.NITAHelpers" />
+
+    <!-- MY STYLES HERE -->
+    <style name="Theme.MainActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/blue</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
+    <style name="Theme.SignupLoginActivity" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:navigationBarColor">@color/white</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+    </style>
+
+
+
+
+
+
+</resources>

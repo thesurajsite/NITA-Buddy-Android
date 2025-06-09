@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:gravity="center"
+    tools:context="NITABuddy.Authentication.User_SignUp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="NITA BUDDY"
+        android:textAlignment="center"
+        android:textColor="@color/dark_blue"
+        android:fontFamily="@font/allerta_stencil"
+        android:textSize="40dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="Create a New Account"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="23dp"
+        android:layout_marginTop="@dimen/_30sdp"/>
+
+    <EditText
+        android:id="@+id/name_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:fontFamily="sans-serif"
+        android:hint="Full Name"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:textSize="25dp" />
+
+    <EditText
+      android:id="@+id/email_et"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginLeft="20dp"
+      android:layout_marginTop="10dp"
+      android:layout_marginRight="20dp"
+      android:background="@drawable/custom_input"
+      android:drawablePadding="10dp"
+      android:fontFamily="sans-serif"
+      android:hint="Email"
+      android:paddingStart="10dp"
+      android:paddingTop="5dp"
+      android:paddingBottom="5dp"
+      android:textColor="@color/black"
+      android:textColorHint="@color/black"
+      android:textSize="25dp" />
+
+    <EditText
+      android:id="@+id/password_et"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Password"
+      android:textColor="@color/black"
+      android:textColorHint="@color/black"
+      android:background="@drawable/custom_input"
+      android:drawablePadding="10dp"
+      android:textSize="25dp"
+      android:paddingStart="10dp"
+      android:paddingTop="5dp"
+      android:paddingBottom="5dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:layout_marginTop="10dp"
+      android:inputType="textPassword"
+      />
+
+    <EditText
+      android:id="@+id/confirmPassword_et"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:hint="Confirm Password"
+      android:textColor="@color/black"
+      android:textColorHint="@color/black"
+      android:background="@drawable/custom_input"
+      android:drawablePadding="10dp"
+      android:textSize="25dp"
+      android:paddingStart="10dp"
+      android:paddingTop="5dp"
+      android:paddingBottom="5dp"
+      android:layout_marginRight="20dp"
+      android:layout_marginLeft="20dp"
+      android:layout_marginTop="10dp"
+      android:inputType="textPassword"
+      />
+
+    <EditText
+        android:id="@+id/phone_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Phone Number"
+        android:textColorHint="@color/black"
+        android:textColor="@color/black"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:textSize="25dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        />
+
+    <EditText
+        android:id="@+id/enrollment_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Enrollment Number"
+        android:textColor="@color/black"
+        android:textColorHint="@color/black"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:textSize="25dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        />
+
+    <LinearLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+
+        <Spinner
+          android:id="@+id/branch_spinner"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="wrap_content"
+          android:hint="Branch"
+          android:textColor="@color/black"
+          android:textColorHint="@color/black"
+          android:background="@drawable/custom_input"
+          android:drawablePadding="10dp"
+          android:textSize="25dp"
+          android:paddingStart="10dp"
+          android:paddingTop="5dp"
+          android:paddingBottom="5dp"
+          android:layout_marginRight="5dp"
+          android:layout_marginLeft="20dp"
+          android:layout_marginTop="10dp"
+          android:inputType="number"
+          />
+
+        <Spinner
+          android:id="@+id/year_spinner"
+          android:layout_width="0dp"
+          android:layout_weight="1"
+          android:layout_height="wrap_content"
+          android:hint="Year"
+          android:textColorHint="@color/black"
+          android:background="@drawable/custom_input"
+          android:drawablePadding="10dp"
+          android:textColor="@color/black"
+          android:textSize="25dp"
+          android:paddingStart="10dp"
+          android:paddingTop="5dp"
+          android:paddingBottom="5dp"
+          android:layout_marginRight="20dp"
+          android:layout_marginTop="10dp"
+          android:inputType="number"
+          />
+
+    </LinearLayout>
+
+    <Spinner
+        android:id="@+id/hostel_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Hostel Name"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        />
+
+
+    <EditText
+        android:visibility="gone"
+        android:id="@+id/enterOTP_et"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textColor="@color/black"
+        android:hint="Enter OTP"
+        android:textColorHint="@color/black"
+        android:background="@drawable/custom_input"
+        android:drawablePadding="10dp"
+        android:textSize="25dp"
+        android:paddingStart="10dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="10dp"
+        android:inputType="number"
+        />
+
+
+    <Button
+        android:id="@+id/getOTP_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Create Account"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="35dp"
+        android:background="@color/blue"
+        />
+
+    <Button
+        android:visibility="gone"
+        android:id="@+id/verifyOTP_btn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Verify OTP"
+        android:textSize="20dp"
+        android:textColor="@color/white"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="35dp"
+        android:background="#4AB524"
+        />
+
+
+    <ProgressBar
+        android:id="@+id/Progressbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:backgroundTint="@color/white"
+        android:indeterminate="true"
+        android:layout_marginTop="10dp"
+        android:visibility="invisible"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        />
+
+    <TextView
+        android:id="@+id/signupToLogin_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? Login Here"
+        android:textColor="@color/blue"
+        android:textSize="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_10sdp"/>
+
+
+</LinearLayout>

@@ -1,0 +1,82 @@
+<androidx.swiperefreshlayout.widget.SwipeRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/swipeRefreshLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="NITABuddy.Fragments.Rewards_Fragment"
+    android:background="@color/blue">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/rewards_badge"
+            android:layout_width="@dimen/_100sdp"
+            android:layout_height="@dimen/_100sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            android:src="@drawable/rewards_badge"
+            android:layout_marginTop="@dimen/_60sdp"/>
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/ProgressBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            android:indeterminate="true"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:layout_marginLeft="@dimen/_70sdp"
+            android:layout_marginRight="@dimen/_70sdp"
+            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rewards_badge"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rewards_badge"
+            android:text="R e w a r d s"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30sdp"
+            android:fontFamily="@font/aldrich"
+            android:layout_marginTop="@dimen/_30sdp"
+            />
+
+        <TextView
+            android:id="@+id/coins"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/rewards_badge"
+            android:text="000 Coins"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_30sdp"
+            android:fontFamily="@font/aldrich"
+            android:layout_marginTop="@dimen/_80sdp"
+            android:background="@drawable/button_shape"
+            android:paddingLeft="@dimen/_10sdp"
+            android:paddingRight="@dimen/_10sdp"
+            />
+
+        <ImageView
+            android:layout_width="@dimen/_200sdp"
+            android:layout_height="@dimen/_200sdp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/coins"
+            android:layout_marginTop="@dimen/_10sdp"
+            android:src="@drawable/redeem"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.swiperefreshlayout.widget.SwipeRefreshLayout>

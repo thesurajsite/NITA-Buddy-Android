@@ -23,17 +23,23 @@ import com.gharaana.nitabuddy.R
 import com.gharaana.nitabuddy.databinding.FragmentProfileBinding
 import NITABuddy.Activities.myRequest_RecyclerAdapter
 import NITABuddy.Activities.myRequest_model
+import NITABuddy.Retrofit.RetrofitInstance
+import NITABuddy.Retrofit.RetrofitService
+import NITABuddy.ViewModels.ProfileViewModel
 import com.android.volley.DefaultRetryPolicy
 import org.json.JSONObject
 
 class Profile_Fragment : Fragment() {
+
     lateinit var binding: FragmentProfileBinding
     private lateinit var jsonObject: JSONObject
-    private lateinit var SharedPreferencesManager: SharedPreferencesManager
+    private lateinit var sharedPreferences: SharedPreferencesManager
     private lateinit var vibrator: Vibrator
     private lateinit var arrMyRequest:ArrayList<myRequest_model>
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: myRequest_RecyclerAdapter
+    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var retrofitService: RetrofitService
 
     fun <T> addtoRequestQueue(request: Request<T>, timeoutMillis: Int) {
         request.retryPolicy = DefaultRetryPolicy( timeoutMillis,
@@ -54,17 +60,19 @@ class Profile_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding = FragmentProfileBinding.inflate(inflater, container, false)
 
-        SharedPreferencesManager= SharedPreferencesManager(requireContext())
+        profileViewModel = ProfileViewModel()
+        retrofitService = RetrofitInstance.retrofitService
+        sharedPreferences= SharedPreferencesManager(requireContext())
         vibrator=requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         binding.Progressbar.visibility=View.VISIBLE
 
-        fetchProfileData()
+        fetchUserProfile()
         fetchMyRequests()
         myRequestRecyclerView()
 
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-            fetchProfileData()
+            fetchUserProfile()
             fetchMyRequests()
             myRequestRecyclerView()
             binding.swipeRefreshLayout.isRefreshing=false
@@ -191,8 +199,8 @@ class Profile_Fragment : Fragment() {
             // Override getHeaders to add the Authorization header
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                val token=SharedPreferencesManager.getUserToken()
-                headers["Authorization"] = "Bearer $token"
+                //val token=SharedPreferencesManager.getUserToken()
+                //headers["Authorization"] = "Bearer $token"
                 return headers
             }
         }
@@ -200,64 +208,34 @@ class Profile_Fragment : Fragment() {
 
     }
 
-    private fun fetchProfileData() {
+    private fun fetchUserProfile() {
+        binding.Progressbar.visibility= View.VISIBLE
+        val token = sharedPreferences.getUserToken()
+        profileViewModel.getUserProfile(retrofitService, token)
 
-        //API CALLING
-        binding.recyclerViewProgressBar.visibility=View.VISIBLE
-        jsonObject= JSONObject()
-        jsonObject.put("token", SharedPreferencesManager.getUserToken())
-        val url = "https://gharaanah.onrender.com/engineering/profile"
-        val request = object : JsonObjectRequest(
-            Method.GET, url, jsonObject,
-            { jsonData ->
-                binding.Progressbar.visibility=View.INVISIBLE
-                val action=jsonData.getBoolean("action")
-                if(action==true){
-                    val studentObject=jsonData.getJSONObject("student")
-                    val name=studentObject.getString("name")
-                    val enrollmentNo=studentObject.getString("enrollmentNo")
-                    val branch=studentObject.getString("branch")
-                    val year=studentObject.getString("year")
-                    val hostel=studentObject.getString("hostel")
-                    val phoneNo=studentObject.getString("phoneNo")
+        profileViewModel.userProfileResponse.observe(viewLifecycleOwner) { response ->
+            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+            binding.Progressbar.visibility= View.INVISIBLE
 
-                    binding.nameTv.setText(name)
-                    binding.enrollmentTv.setText("Er No: $enrollmentNo")
-                    binding.branchTv.setText(branch)
-                    binding.yearTv.setText(year)
-                    binding.hostelTv.setText("Hostel: $hostel")
-                    binding.phoneTv.setText("Phone No: $phoneNo")
-
-                }
-
-                Log.d("Profile-call", "$jsonData")
-//                Toast.makeText(requireContext(), "Success", Toast.LENGTH_SHORT).show()
-            },
-            {
-                binding.Progressbar.visibility=View.INVISIBLE
-                Toast.makeText(requireContext(), "Some Error Occured", Toast.LENGTH_SHORT).show()
-                Log.e("Profile-call", "Error: ${it.message}")
-            }
-        ) {
-            // Override getHeaders to add the Authorization header
-            override fun getHeaders(): MutableMap<String, String> {
-                val headers = HashMap<String, String>()
-                val token=SharedPreferencesManager.getUserToken()
-                headers["Authorization"] = "Bearer $token"
-                return headers
+            if(response.status==true){
+                val userDetails = response.user
+                binding.nameTv.text=userDetails.name
+                binding.enrollmentTv.text=userDetails.enrollment
+                binding.branchTv.text=userDetails.branch
+                binding.yearTv.text=userDetails.year
+                binding.hostelTv.text=userDetails.hostel
+                binding.phoneTv.text=userDetails.phone
+                binding.emailTv.text=userDetails.email
             }
         }
-
-        addtoRequestQueue(request, 30000)
-
     }
 
     private fun logout() {
         binding.logoutBtn.setOnClickListener {
             vibrator.vibrate(50)
 
-            SharedPreferencesManager.updateLoginState(false)
-            SharedPreferencesManager.updateUserToken("")
+            sharedPreferences.updateLoginState(false)
+            sharedPreferences.updateUserToken("")
             Toast.makeText(requireContext(), "Logged Out Successfully", Toast.LENGTH_SHORT).show()
 
             startActivity(Intent(requireContext(), User_Login_Activity::class.java))

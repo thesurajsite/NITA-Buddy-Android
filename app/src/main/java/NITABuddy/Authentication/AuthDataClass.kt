@@ -1,14 +1,14 @@
 package NITABuddy.Authentication
 
 data class SignupRequestDataClass(
-    val Email: String?="",
-    val Password: String?="",
-    val Name: String?="",
-    val Enrollment: String,
-    val Phone: String?="",
-    val Hostel:String?="",
-    val Branch: String?="",
-    val Year: String?=""
+    val email: String?="",
+    val password: String?="",
+    val name: String?="",
+    val enrollment: String,
+    val phone: String?="",
+    val hostel:String?="",
+    val branch: String?="",
+    val year: String?=""
 )
 
 data class SignupResponseDataClass(

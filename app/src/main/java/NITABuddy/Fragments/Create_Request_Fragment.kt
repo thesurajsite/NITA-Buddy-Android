@@ -1,6 +1,10 @@
 package NITABuddy.Fragments
 
+import NITABuddy.DataClass.CreateOrderRequestDataClass
+import NITABuddy.Retrofit.RetrofitInstance
+import NITABuddy.Retrofit.RetrofitService
 import NITABuddy.SharedPreferences.SharedPreferencesManager
+import NITABuddy.ViewModels.OrderViewModel
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
@@ -24,18 +28,12 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
 class Create_Request_Fragment : Fragment() {
+
     lateinit var binding: FragmentCreateRequestBinding
     private lateinit var vibrator: Vibrator
-    private lateinit var jsonObject: JSONObject
-    private lateinit var SharedPreferencesManager: SharedPreferencesManager
-
-    fun <T> addtoRequestQueue(request: Request<T>){
-        requestQueue.add(request)
-    }
-
-    private val requestQueue: RequestQueue by lazy {
-        Volley.newRequestQueue(requireContext())
-    }
+    private lateinit var sharedPreferences: SharedPreferencesManager
+    private lateinit var orderViewModel: OrderViewModel
+    private lateinit var retrofitService: RetrofitService
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,210 +42,57 @@ class Create_Request_Fragment : Fragment() {
         // Inflate the layout for this fragment
         binding=FragmentCreateRequestBinding.inflate(inflater, container,false)
 
+        orderViewModel = OrderViewModel()
+        retrofitService = RetrofitInstance.retrofitService
         vibrator=requireContext().getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-        SharedPreferencesManager= SharedPreferencesManager(requireContext())
-        val url = "https://gharaanah.onrender.com/engineering/placeorder"
+        sharedPreferences= SharedPreferencesManager(requireContext())
+
         val dialog=Dialog(requireContext())
         dialog.setContentView(R.layout.create_request_dialog)
         val dialogEditText=dialog.findViewById<EditText>(R.id.dialogEditText)
-        val dialogButton=dialog.findViewById<Button>(R.id.createRequestButton)
-
+        val createRequestButton=dialog.findViewById<Button>(R.id.createRequestButton)
 
         binding.amazonOrder.setOnClickListener {
             vibrator.vibrate(50)
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Gate 2")
-                jsonObject.put("type", "Parcel")
-                jsonObject.put("storeName", "amazon")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("Amazon", orderDetails, dialog)
             }
-
-
-
         }
 
         binding.flipkartOrder.setOnClickListener {
             vibrator.vibrate(50)
-
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Gate 2")
-                jsonObject.put("type", "Parcel")
-                jsonObject.put("storeName", "flipkart")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("Flipkart", orderDetails, dialog)
             }
-
         }
 
         binding.samratOrder.setOnClickListener {
             vibrator.vibrate(50)
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Gate 2")
-                jsonObject.put("type", "Shop")
-                jsonObject.put("storeName", "Samrat")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("Samrat", orderDetails, dialog)
             }
-
         }
 
         binding.johnOrder.setOnClickListener {
             vibrator.vibrate(50)
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Gate 2")
-                jsonObject.put("type", "food")
-                jsonObject.put("storeName", "John")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("John", orderDetails, dialog)
             }
         }
 
@@ -255,116 +100,38 @@ class Create_Request_Fragment : Fragment() {
             vibrator.vibrate(50)
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Gate 2")
-                jsonObject.put("type", "food")
-                jsonObject.put("storeName", "Joydip")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("Wow", orderDetails, dialog)
             }
-
         }
-
 
         binding.shoppingComplexOrder.setOnClickListener {
             vibrator.vibrate(50)
             dialog.show()
             dialogEditText.setText("")
-
-            dialogButton.setOnClickListener {
-
+            createRequestButton.setOnClickListener {
                 vibrator.vibrate(50)
-                Toast.makeText(requireContext(), "Creating Request...", Toast.LENGTH_SHORT).show()
-                val orderDetails=dialogEditText.text.toString()
-
-                jsonObject= JSONObject()
-                jsonObject.put("orderPoint", "Shopping Complex")
-                jsonObject.put("type", "shopping")
-                jsonObject.put("storeName", "Shopping Complex")
-                jsonObject.put("orderDetails", orderDetails)
-                jsonObject.put("orderTime", currentTime().toString())
-
-                val request=object : JsonObjectRequest(
-                    Method.POST, url, jsonObject,
-                    { jsonData->
-                        val action=jsonData.getBoolean("action")
-                        val response=jsonData.getString("response")
-                        Toast.makeText(requireContext(), "$response", Toast.LENGTH_SHORT).show()
-                        Log.d("Request-Call", "jsonData: $jsonData || action: $action || response: $response")
-                        dialog.dismiss()
-
-
-                    },{
-                        Toast.makeText(requireContext(), "${it.message}", Toast.LENGTH_SHORT).show()
-                        Log.w("Request-Call", "${it.message}")
-                        dialog.dismiss()
-
-                    }
-                ){
-                    override fun getHeaders(): MutableMap<String, String>{
-                        val headers=HashMap<String, String>()
-                        val token=SharedPreferencesManager.getUserToken()
-                        headers["Authorization"]="Bearer $token"
-                        return headers
-                    }
-                }
-
-                addtoRequestQueue(request)
-
+                val orderDetails = dialogEditText.text.toString()
+                createOrder("Shopping complex", orderDetails, dialog)
             }
-
         }
-
-
-
-
 
         return binding.root
     }
 
-    private fun currentTime(): String? {
-        val currentDateTime = LocalDateTime.now()
+    private fun createOrder(store: String, orderDetails: String, dialog: Dialog){
+        val token = sharedPreferences.getUserToken()
+        val order = CreateOrderRequestDataClass(store, orderDetails)
+        orderViewModel.placeOrder(retrofitService, token, order)
 
-        // Format the date and time with the desired pattern (dd-MM HH:mm)
-        val formatter = DateTimeFormatter.ofPattern("HH:mm dd-MM-yyyy")
-        val DateTime = currentDateTime.format(formatter).toString()
-
-        return DateTime
+        orderViewModel.createOrderResponse.observe(viewLifecycleOwner) { response->
+            Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+            if(response.status==true){
+                dialog.dismiss()
+            }
+        }
     }
 
 }

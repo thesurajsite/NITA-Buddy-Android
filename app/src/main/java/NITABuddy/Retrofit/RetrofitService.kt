@@ -4,6 +4,8 @@ import NITABuddy.Authentication.LoginRequestDataClass
 import NITABuddy.Authentication.LoginResponseDataClass
 import NITABuddy.Authentication.SignupRequestDataClass
 import NITABuddy.Authentication.SignupResponseDataClass
+import NITABuddy.DataClass.CreateOrderRequestDataClass
+import NITABuddy.DataClass.CreateOrderResponseDataClass
 import NITABuddy.DataClass.UserProfileResponseDataClass
 import retrofit2.Response
 import retrofit2.http.Body
@@ -25,11 +27,17 @@ interface RetrofitService {
     ) : Response<LoginResponseDataClass>
 
 
-    @GET("/user/profile")
+    @GET("/profile")
     suspend fun getUserProfile(
         @Header("Authorization") token: String
     ): Response<UserProfileResponseDataClass>
 
+
+    @POST("/order")
+    suspend fun placeOrder(
+        @Header("Authorization") token : String,
+        @Body createOrderRequest: CreateOrderRequestDataClass
+    ) : Response<CreateOrderResponseDataClass>
 
 
 }

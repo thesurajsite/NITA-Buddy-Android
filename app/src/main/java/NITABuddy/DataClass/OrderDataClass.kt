@@ -10,5 +10,20 @@ data class CreateOrderResponseDataClass(
     val status: Boolean?=false
 )
 
+data class OrderDataClass(
+    val id: String?="",
+    val custom_order_id: String?="",
+    val store: String?="",
+    val order_details: String?="",
+    val status: String?="",
+    val otp: String?="",
+    val placed_by: String?="",
+    val accepted_by: String?="",
+    val created_at: String?=""
+)
 
-
+data class MyOrderResponseDataClass(
+    val status: Boolean?= false,
+    val message: String?= "",
+    val orders: List<OrderDataClass> = emptyList()
+)

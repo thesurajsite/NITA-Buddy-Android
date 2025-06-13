@@ -1,6 +1,5 @@
 package NITABuddy.ViewModels
 
-import NITABuddy.Authentication.SignupResponseDataClass
 import NITABuddy.DataClass.UserDataClass
 import NITABuddy.DataClass.UserProfileResponseDataClass
 import NITABuddy.Retrofit.RetrofitService

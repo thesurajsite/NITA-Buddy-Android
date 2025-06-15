@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:background="@color/white"
             android:layout_marginLeft="10dp"
-            android:layout_marginTop="@dimen/_3sdp"
+            android:layout_marginTop="@dimen/_18sdp"
             app:cardCornerRadius="3dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">

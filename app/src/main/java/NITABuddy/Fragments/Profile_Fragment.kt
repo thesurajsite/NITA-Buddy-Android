@@ -59,8 +59,8 @@ class Profile_Fragment : Fragment() {
         binding.Progressbar.visibility=View.VISIBLE
 
         fetchUserProfile()
-        fetchMyRequests()
         myRequestRecyclerView()
+        fetchMyRequests()
 
 
         binding.swipeRefreshLayout.setOnRefreshListener {
@@ -117,9 +117,13 @@ class Profile_Fragment : Fragment() {
                 arrMyOrders.clear()
                 arrMyOrders.addAll(myOrders)
                 adapter.notifyDataSetChanged()
+
+                if (arrMyOrders.isEmpty()) {
+                    binding.emptyImage.visibility = View.VISIBLE
+                } else {
+                    binding.emptyImage.visibility = View.GONE
+                }
             }
-
-
         }
 
     }

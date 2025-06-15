@@ -72,13 +72,32 @@ class Profile_Fragment : Fragment() {
 
         binding.logoutBtn.setOnClickListener{ logout() }
 
+        // Observer CancelOrder live data for response, when cancel order is clicked
+        orderViewModel.cancelMyOrderResponse.observe(viewLifecycleOwner) { response ->
+            Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+            if(response.status==true) fetchMyRequests() // Refresh
+        }
+
+
         return binding.root
     }
 
     private fun myRequestRecyclerView() {
 
         arrMyOrders=ArrayList()
-        adapter = myRequest_RecyclerAdapter(requireContext(), arrMyOrders)
+
+        adapter = myRequest_RecyclerAdapter(  // Adapter Initialization and Callback
+            requireContext(),
+            arrMyOrders,
+            onCancelOrderClicked = { orderId ->
+                Toast.makeText(context, "Cancelling...", Toast.LENGTH_SHORT).show()
+                val token = sharedPreferences.getUserToken()
+                orderViewModel.cancelMyOrder(retrofitService, token, orderId)
+                // we are also observing the livedata response in profile fragment
+            }
+        )
+
+
         binding.myRequestRecyclerView.adapter=adapter
         binding.myRequestRecyclerView.layoutManager=LinearLayoutManager(requireContext())
 

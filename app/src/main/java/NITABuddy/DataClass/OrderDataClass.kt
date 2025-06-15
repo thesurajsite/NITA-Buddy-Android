@@ -27,3 +27,12 @@ data class MyOrderResponseDataClass(
     val message: String?= "",
     val orders: List<OrderDataClass> = emptyList()
 )
+
+data class CancelMyOrderRequestDataClass(
+    val id: String?=""
+)
+
+data class CancelMyOrderResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?=""
+)

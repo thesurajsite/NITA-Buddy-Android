@@ -1,5 +1,7 @@
 package NITABuddy.ViewModels
 
+import NITABuddy.DataClass.CancelMyOrderRequestDataClass
+import NITABuddy.DataClass.CancelMyOrderResponseDataClass
 import NITABuddy.DataClass.CreateOrderRequestDataClass
 import NITABuddy.DataClass.CreateOrderResponseDataClass
 import NITABuddy.DataClass.MyOrderResponseDataClass
@@ -18,6 +20,9 @@ class OrderViewModel() : ViewModel() {
 
     private val _myOrdersResponse = MutableLiveData<MyOrderResponseDataClass>()
     val myOrdersResponse: LiveData<MyOrderResponseDataClass> get() = _myOrdersResponse
+
+    private val _cancelMyOrderResponse = MutableLiveData<CancelMyOrderResponseDataClass>()
+    val cancelMyOrderResponse: LiveData<CancelMyOrderResponseDataClass> get() = _cancelMyOrderResponse
 
     fun placeOrder(retrofitService: RetrofitService, token: String, order: CreateOrderRequestDataClass){
         viewModelScope.launch {
@@ -51,6 +56,24 @@ class OrderViewModel() : ViewModel() {
             }
             catch (e: Exception){
                 _myOrdersResponse.postValue(MyOrderResponseDataClass(false, "${e.localizedMessage}", emptyList()))
+            }
+        }
+    }
+
+    fun cancelMyOrder(retrofitService: RetrofitService, token: String, id: String){
+        viewModelScope.launch {
+            try {
+                val response = retrofitService.cancelMyOrder(token, id)
+                if(response.isSuccessful){
+                    val cancelMyOrderResponse = response.body()
+                    _cancelMyOrderResponse.postValue(cancelMyOrderResponse!!)
+                }
+                else{
+                    _cancelMyOrderResponse.postValue(CancelMyOrderResponseDataClass(false, "Server Error"))
+                }
+            }
+            catch (e: Exception){
+                _cancelMyOrderResponse.postValue(CancelMyOrderResponseDataClass(false, "${e.localizedMessage}"))
             }
         }
     }

@@ -2,7 +2,9 @@ package NITABuddy.Activities
 
 
 import NITABuddy.DataClass.OrderDataClass
+import NITABuddy.Retrofit.RetrofitService
 import NITABuddy.SharedPreferences.SharedPreferencesManager
+import NITABuddy.ViewModels.OrderViewModel
 import android.content.Context
 import android.content.Intent
 import android.os.Vibrator
@@ -15,14 +17,12 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.R
-import org.json.JSONObject
 
-class myRequest_RecyclerAdapter(val context: Context,val arrMyRequest: ArrayList<OrderDataClass>) : RecyclerView.Adapter<myRequest_RecyclerAdapter.ViewHolder>() {
+class myRequest_RecyclerAdapter(val context: Context,
+                                val arrMyRequest: ArrayList<OrderDataClass>,
+                                val onCancelOrderClicked: (String) -> Unit
+) : RecyclerView.Adapter<myRequest_RecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
 
@@ -113,6 +113,12 @@ class myRequest_RecyclerAdapter(val context: Context,val arrMyRequest: ArrayList
             holder.orderStatus.setBackgroundResource(R.drawable.button_shape_green)
         }
 
+        holder.cancelOrder.setOnClickListener {
+            val id = arrMyRequest[position].id.toString()
+            onCancelOrderClicked(id) // makes callback and sends id to fragment
+        }
+
+
 //        holder.generateOtp.setOnClickListener {
 //            holder.vibrator.vibrate(50)
 //            holder.generateOtp.setText("Generating OTP...")
@@ -164,40 +170,5 @@ class myRequest_RecyclerAdapter(val context: Context,val arrMyRequest: ArrayList
 //
 //        }
 
-//        holder.cancelOrder.setOnClickListener {
-//            holder.vibrator.vibrate(50)
-//            holder.cancelOrder.setText("Cancelling...")
-//            val orderId=arrMyRequest[position].custom_order_id
-//
-//            jsonObject= JSONObject()
-//            jsonObject.put("orderId", orderId)
-//            val url = "https://gharaanah.onrender.com/engineering/cancel"
-//            val request = object : JsonObjectRequest(
-//                Method.POST, url, jsonObject,
-//                { jsonData ->
-//                    val action = jsonData.getBoolean("action")
-////                    val response=jsonData.getString("response")
-//                    if(action){
-//                        holder.cancelOrder.setText("Order Cancelled")
-//                        Toast.makeText(context, "Order Cancelled, Please Refresh", Toast.LENGTH_SHORT).show()
-//                    }
-//                },
-//                {
-//                    Toast.makeText(context, "Some Error Occured", Toast.LENGTH_SHORT).show()
-//                    Log.w("otp-request", "${it.message}")
-//                }
-//            ){
-//                override fun getHeaders(): MutableMap<String, String> {
-//                    val headers = HashMap<String, String>()
-//                    val token=SharedPreferencesManager.getUserToken()
-//                    headers["Authorization"] = "Bearer $token"
-//                    return headers
-//                }
-//
-//            }
-//
-//            addtoRequestQueue(request)
-//
-//        }
     }
 }

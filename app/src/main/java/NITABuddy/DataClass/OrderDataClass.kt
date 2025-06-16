@@ -35,6 +35,11 @@ data class CancelMyOrderResponseDataClass(
     val message: String?=""
 )
 
+data class AcceptOrderResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?=""
+)
+
 data class AllOrderResponseDataClass(
     val status: Boolean?=false,
     val message: String?="",

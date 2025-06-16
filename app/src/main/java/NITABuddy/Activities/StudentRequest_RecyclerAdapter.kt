@@ -17,17 +17,13 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.R
 import org.json.JSONObject
 
 class studentRequest_RecyclerAdapter(
     val context: Context,
     val arrStudentRequest: ArrayList<OrderDataClass>,
-    val myInterface: myInterface
+    val onAcceptOrderClicked: (String) -> Unit
 ) : RecyclerView.Adapter<studentRequest_RecyclerAdapter.ViewHolder>() {
 
     private lateinit var jsonObject: JSONObject
@@ -48,25 +44,16 @@ class studentRequest_RecyclerAdapter(
         val tapLayout=itemView.findViewById<LinearLayout>(R.id.tapLayout)
         val acceptRequest=itemView.findViewById<TextView>(R.id.acceptRequest)
 
-
         val recyclerLayout=itemView.findViewById<LinearLayout>(R.id.myRequestLayout)
         val vibrator = itemView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-
-
         return ViewHolder(LayoutInflater.from(context).inflate(R.layout.students_request_layout, parent, false))
-
     }
 
     override fun getItemCount(): Int {
         return arrStudentRequest.size
-
-
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
@@ -115,71 +102,11 @@ class studentRequest_RecyclerAdapter(
             context.startActivity(intent)
         }
 
-
-//        holder.acceptRequest.setOnClickListener {
-//            holder.vibrator.vibrate(50)
-//
-//            val builder = AlertDialog.Builder(context)
-//                .setTitle("Accept Request")
-//                .setIcon(R.drawable.accept_request)
-//                .setMessage("Do you want to Accept this Request?")
-//                .setPositiveButton(
-//                    "Yes"
-//                ) { dialogInterface, i ->
-//                    try {
-//                        holder.vibrator.vibrate(50)
-//                        holder.acceptRequest.setText("Accepting...")
-//
-//                        val orderId=arrStudentRequest[position].orderId
-//
-//                        jsonObject= JSONObject()
-//                        jsonObject.put("orderId", orderId)
-//                        val url = "https://gharaanah.onrender.com/engineering/acceptrequest"
-//                        val request = object : JsonObjectRequest(
-//                            Method.POST, url, jsonObject,
-//                            { jsonData ->
-//                                val action = jsonData.getBoolean("action")
-//                                if(action){
-//                                    val response = jsonData.getString("response")
-//                                    holder.acceptRequest.setText("Order Accepted")
-//                                    Toast.makeText(context, "Order Accepted", Toast.LENGTH_SHORT).show()
-//
-//                                    // REFRESH THE RECYCLER VIEW
-//                                    myInterface.fetchStudentsRequest()
-//                                    myInterface.studentRequestRecyclerView()
-//
-//                                }
-//                            },
-//                            {
-//                                Toast.makeText(context, "Some Error Occured", Toast.LENGTH_SHORT).show()
-//                                Log.w("otp-request", "${it.message}")
-//                            }
-//                        ){
-//                            override fun getHeaders(): MutableMap<String, String> {
-//                                val headers = HashMap<String, String>()
-//                                val token=SharedPreferencesManager.getUserToken()
-//                                headers["Authorization"] = "Bearer $token"
-//                                return headers
-//                            }
-//
-//                        }
-//
-//                        addtoRequestQueue(request)
-//
-//                    } catch (e: Exception) {
-//                        Toast.makeText(context, "Something Went Wrong", Toast.LENGTH_SHORT).show()
-//                        Log.w("accept-request", e)
-//                    }
-//
-//                }.setNegativeButton("No")
-//                { dialogInterface, i ->
-//                    //Nothing
-//                }
-//            builder.show()
-//            true
-//
-//        }
-
+        holder.acceptRequest.setOnClickListener {
+            holder.vibrator.vibrate(50)
+            val orderID = arrStudentRequest[position].id.toString()
+            onAcceptOrderClicked(orderID) // makes callback and sends id to fragment
+        }
     }
 
 

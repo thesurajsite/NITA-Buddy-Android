@@ -54,12 +54,9 @@ class Home_fragment : Fragment(), myInterface {
 
 
         binding.swipeRefreshLayout.setOnRefreshListener {
-
             studentRequestRecyclerView()
             fetchStudentsRequest()
             binding.swipeRefreshLayout.isRefreshing=false
-
-
         }
 
         if(arrStudentRequest.isEmpty()){
@@ -68,6 +65,11 @@ class Home_fragment : Fragment(), myInterface {
         else{
             binding.nothingToShowImage.visibility=View.GONE
         }
+
+         orderViewModel.acceptOrderResponse.observe(viewLifecycleOwner) { response->
+             Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+             if(response.status==true) fetchStudentsRequest() // Refresh
+         }
 
 
 
@@ -100,7 +102,22 @@ class Home_fragment : Fragment(), myInterface {
 
     override fun studentRequestRecyclerView() {
         arrStudentRequest= ArrayList()
-        adapter= studentRequest_RecyclerAdapter(requireContext(), arrStudentRequest, this )
+        adapter= studentRequest_RecyclerAdapter(
+            requireContext(),
+            arrStudentRequest,
+            onAcceptOrderClicked = { orderID ->
+                Toast.makeText(context, "Accepting...", Toast.LENGTH_SHORT).show()
+                val token = sharedPreferences.getUserToken()
+                orderViewModel.AcceptOrder(retrofitService, token, orderID)
+                // we are also observing the livedata response in Home fragment
+
+            }
+        )
+
+
+
+
+
         binding.studentRequestRecyclerView.adapter=adapter
         binding.studentRequestRecyclerView.layoutManager=LinearLayoutManager(requireContext())
     }

@@ -118,56 +118,18 @@ class myRequest_RecyclerAdapter(val context: Context,
         }
 
 
-//        holder.generateOtp.setOnClickListener {
-//            holder.vibrator.vibrate(50)
-//            holder.generateOtp.setText("Generating OTP...")
-//
-//            val orderId=arrMyRequest[position].custom_order_id
-//
-//            jsonObject= JSONObject()
-//            jsonObject.put("orderId", orderId)
-//            val url = "https://gharaanah.onrender.com/engineering/generateotp"
-//            val request = object : JsonObjectRequest(
-//                Method.POST, url, jsonObject,
-//                { jsonData ->
-//                    val action = jsonData.getBoolean("status")
-//                    if(action){
-//                        val response = jsonData.getString("response") // Contains text "Your OTP is: "
-//                        val otp=jsonData.getLong("otp")
-//                        holder.generateOtp.setText("\" $otp \"")
-//                    }
-//                },
-//                {
-//                    Toast.makeText(context, "Some Error Occured", Toast.LENGTH_SHORT).show()
-//                    Log.w("otp-request", "${it.message}")
-//                }
-//            ){
-//                override fun getHeaders(): MutableMap<String, String> {
-//                    val headers = HashMap<String, String>()
-//                    val token=SharedPreferencesManager.getUserToken()
-//                    headers["Authorization"] = "Bearer $token"
-//                    return headers
-//                }
-//
-//            }
-//
-//            addtoRequestQueue(request)
-//        }
+        holder.generateOtp.setOnClickListener {
+            holder.vibrator.vibrate(50)
+            holder.generateOtp.setText("OTP: "+arrMyRequest[position].otp)
+        }
 
-        // WHO ACCEPTED BUTTON
-//        holder.whoAccepted.setOnClickListener {
-//            holder.vibrator.vibrate(50)
-//
-//            val intent= Intent(context, student_details::class.java)
-//            intent.putExtra("name", arrMyRequest[position].studentName)
-//            intent.putExtra("branch", arrMyRequest[position].branch)
-//            intent.putExtra("enrollmentNo", arrMyRequest[position].enrollmentNo)
-//            intent.putExtra("year", arrMyRequest[position].year)
-//            intent.putExtra("hostel", arrMyRequest[position].hostel)
-//            intent.putExtra("phoneNo", arrMyRequest[position].phoneNo)
-//            context.startActivity(intent)
-//
-//        }
+
+        holder.whoAccepted.setOnClickListener {
+            holder.vibrator.vibrate(50)
+            val intent= Intent(context, student_details::class.java)
+            intent.putExtra("userID", arrMyRequest[position].accepted_by)
+            context.startActivity(intent)
+        }
 
     }
 }

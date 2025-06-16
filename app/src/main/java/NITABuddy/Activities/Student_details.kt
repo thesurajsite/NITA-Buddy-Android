@@ -30,7 +30,7 @@ class student_details : AppCompatActivity() {
         retrofitService = RetrofitInstance.retrofitService
 
 
-        val userID= intent.getStringExtra("placedByID")
+        val userID= intent.getStringExtra("userID")
         profileViewModel.getUserProfileFromID(retrofitService, userID.toString())
 
         var phoneNo = ""

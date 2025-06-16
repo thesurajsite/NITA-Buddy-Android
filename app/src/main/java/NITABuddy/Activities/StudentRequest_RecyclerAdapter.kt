@@ -98,7 +98,7 @@ class studentRequest_RecyclerAdapter(
         holder.studentName.setOnClickListener {
             holder.vibrator.vibrate(50)
             val intent=Intent(context, student_details::class.java)
-            intent.putExtra("placedByID", arrStudentRequest[position].placed_by)
+            intent.putExtra("userID", arrStudentRequest[position].placed_by)
             context.startActivity(intent)
         }
 

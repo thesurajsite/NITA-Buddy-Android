@@ -4,7 +4,7 @@ import NITABuddy.Authentication.LoginRequestDataClass
 import NITABuddy.Authentication.LoginResponseDataClass
 import NITABuddy.Authentication.SignupRequestDataClass
 import NITABuddy.Authentication.SignupResponseDataClass
-import NITABuddy.DataClass.CancelMyOrderRequestDataClass
+import NITABuddy.DataClass.AllOrderResponseDataClass
 import NITABuddy.DataClass.CancelMyOrderResponseDataClass
 import NITABuddy.DataClass.CreateOrderRequestDataClass
 import NITABuddy.DataClass.CreateOrderResponseDataClass
@@ -56,6 +56,11 @@ interface RetrofitService {
         @Header("Authorization") token: String,
         @Path("id") id: String
     ): Response<CancelMyOrderResponseDataClass>
+
+    @GET("/allOrders")
+    suspend fun fetchOtherOrders(
+        @Header("Authorization") token: String
+    ): Response<AllOrderResponseDataClass>
 
 
 

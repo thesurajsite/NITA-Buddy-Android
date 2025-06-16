@@ -17,7 +17,9 @@ data class OrderDataClass(
     val order_details: String?="",
     val status: String?="",
     val otp: String?="",
+    val phone: String?="",
     val placed_by: String?="",
+    val placed_by_name: String?="",
     val accepted_by: String?="",
     val created_at: String?=""
 )
@@ -28,11 +30,14 @@ data class MyOrderResponseDataClass(
     val orders: List<OrderDataClass> = emptyList()
 )
 
-data class CancelMyOrderRequestDataClass(
-    val id: String?=""
-)
-
 data class CancelMyOrderResponseDataClass(
     val status: Boolean?=false,
     val message: String?=""
 )
+
+data class AllOrderResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?="",
+    val orders: List<OrderDataClass>
+)
+

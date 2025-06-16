@@ -26,7 +26,7 @@ class AuthViewModel(private val retrofitService: RetrofitService) : ViewModel() 
                     _signupResponse.postValue(signupResponse!!)
                 }
                 else{
-                    _signupResponse.postValue(SignupResponseDataClass(false, "Server Error", ""))
+                    _signupResponse.postValue(SignupResponseDataClass(false, response.message(), ""))
                 }
             }
             catch(e:Exception){
@@ -46,7 +46,7 @@ class AuthViewModel(private val retrofitService: RetrofitService) : ViewModel() 
                     _loginResponse.postValue(loginResponse!!)
                 }
                 else{
-                    _loginResponse.postValue(LoginResponseDataClass(false, "Server error", ""))
+                    _loginResponse.postValue(LoginResponseDataClass(false, response.message(), ""))
                 }
             }
             catch(e: Exception){

@@ -65,7 +65,6 @@ class myRequest_RecyclerAdapter(val context: Context,
         holder.orderDetails.text=arrMyRequest[position].order_details
         holder.storeName.text=arrMyRequest[position].store
         holder.orderStatus.text=arrMyRequest[position].status
-        //holder.storeImage.setImageResource()
 
         if(arrMyRequest[position].store=="Amazon") holder.storeImage.setImageResource(R.drawable.amazon)
         if(arrMyRequest[position].store=="Flipkart") holder.storeImage.setImageResource(R.drawable.flipkart)

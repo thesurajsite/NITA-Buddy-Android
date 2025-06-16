@@ -1,6 +1,7 @@
 package NITABuddy.ViewModels
 
 import NITABuddy.DataClass.AcceptOrderResponseDataClass
+import NITABuddy.DataClass.AcceptedOrderResponseDataClass
 import NITABuddy.DataClass.AllOrderResponseDataClass
 import NITABuddy.DataClass.CancelMyOrderResponseDataClass
 import NITABuddy.DataClass.CreateOrderRequestDataClass
@@ -31,6 +32,9 @@ class OrderViewModel() : ViewModel() {
 
     private val _acceptOrderResponse = MutableLiveData<AcceptOrderResponseDataClass>()
     val acceptOrderResponse: LiveData<AcceptOrderResponseDataClass> get() = _acceptOrderResponse
+
+    private val _acceptedOrderResponse = MutableLiveData<AcceptedOrderResponseDataClass>()
+    val acceptedOrderResponse: LiveData<AcceptedOrderResponseDataClass> get() = _acceptedOrderResponse
 
 
 
@@ -174,6 +178,34 @@ class OrderViewModel() : ViewModel() {
                 }
             } catch (e: Exception) {
                 _acceptOrderResponse.postValue(AcceptOrderResponseDataClass(false, "Error: ${e.localizedMessage}"))
+            }
+        }
+    }
+
+    fun fetchAcceptedOrders(retrofitService: RetrofitService, token: String) {
+        viewModelScope.launch {
+            try {
+                val response = retrofitService.fetchAcceptedOrders(token)
+                if (response.isSuccessful) {
+                    val acceptedOrderResponse = response.body()
+                    _acceptedOrderResponse.postValue(acceptedOrderResponse!!)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    var errorMessage = "Unknown error"
+
+                    if (!errorBody.isNullOrEmpty()) {
+                        try {
+                            val jsonObject = JSONObject(errorBody)
+                            errorMessage = jsonObject.optString("message")
+                        } catch (e: Exception) {
+                            errorMessage = "Failed to parse error response"
+                        }
+                    }
+
+                    _acceptedOrderResponse.postValue(AcceptedOrderResponseDataClass(false, errorMessage, emptyList()))
+                }
+            } catch (e: Exception) {
+                _acceptedOrderResponse.postValue(AcceptedOrderResponseDataClass(false, "Error: ${e.localizedMessage}", emptyList()))
             }
         }
     }

@@ -1,6 +1,7 @@
 package NITABuddy.Activities
 
 
+import NITABuddy.DataClass.OrderDataClass
 import NITABuddy.SharedPreferences.SharedPreferencesManager
 import android.content.Context
 import android.content.Intent
@@ -24,7 +25,7 @@ import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.R
 import org.json.JSONObject
 
-class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedRequest: ArrayList<acceptedRequest_model>) : RecyclerView.Adapter<acceptedRequest_RecyclerAdapter.ViewHolder>() {
+class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedRequest: ArrayList<OrderDataClass>) : RecyclerView.Adapter<acceptedRequest_RecyclerAdapter.ViewHolder>() {
 
     private lateinit var jsonObject: JSONObject
     private lateinit var SharedPreferencesManager: SharedPreferencesManager
@@ -63,11 +64,6 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
         val otpEditText=itemView.findViewById<EditText>(R.id.otpEditText)
         val verifyOtp=itemView.findViewById<Button>(R.id.verifyOTP)
 
-
-//        val acceptRequest=itemView.findViewById<TextView>(R.id.acceptRequest)
-
-
-//        val recyclerLayout=itemView.findViewById<LinearLayout>(R.id.myRequestLayout)
         val vibrator = itemView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
 
     }
@@ -83,13 +79,13 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.orderId.text=arrAcceptedRequest[position].orderId
-        holder.orderTime.text=arrAcceptedRequest[position].orderTime
-        holder.orderDetails.text=arrAcceptedRequest[position].orderDetails
-        holder.studentName.text=arrAcceptedRequest[position].studentName
-        holder.orderStatus.text=arrAcceptedRequest[position].orderstatus
-        holder.phoneNo.text=arrAcceptedRequest[position].phoneNo
-        holder.storeImage.setImageResource(arrAcceptedRequest[position].image)
+        holder.orderId.text=arrAcceptedRequest[position].custom_order_id
+        holder.orderTime.text=arrAcceptedRequest[position].created_at
+        holder.orderDetails.text=arrAcceptedRequest[position].order_details
+        holder.studentName.text=arrAcceptedRequest[position].placed_by_name
+        holder.orderStatus.text=arrAcceptedRequest[position].status
+        holder.phoneNo.text=arrAcceptedRequest[position].phone
+
 
         // VISIBILITY CONTROLS FOR PHONE NUMBER
         var flag=0
@@ -108,26 +104,24 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
         }
 
         // GREEN BACKGROUND TO COMPLETED ORDERS
-        if(arrAcceptedRequest[position].orderstatus=="COMPLETED")
-        {
+        if(arrAcceptedRequest[position].status=="COMPLETED") {
             holder.orderStatus.setBackgroundResource(R.drawable.button_shape_green)
         }
 
         holder.phoneNo.setOnClickListener {
             holder.vibrator.vibrate(50)
-            Toast.makeText(context, "Calling " + arrAcceptedRequest[position].phoneNo, Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "Calling " + arrAcceptedRequest[position].phone, Toast.LENGTH_SHORT).show()
             val callintent = Intent(Intent.ACTION_DIAL)
-            callintent.setData(Uri.parse("tel:" + arrAcceptedRequest[position].phoneNo))
+            callintent.setData(Uri.parse("tel:" + arrAcceptedRequest[position].phone))
             context.startActivity(callintent)
         }
-
 
         holder.completeRequests.setOnClickListener {
             holder.vibrator.vibrate(50)
             holder.verifyOtpLayout.visibility=View.VISIBLE
         }
 
-        if(arrAcceptedRequest[position].orderstatus=="COMPLETED")
+        if(arrAcceptedRequest[position].status=="COMPLETED")
         {
             holder.completeRequests.visibility=View.GONE        //enables otp editText
             holder.completedButton.visibility=View.VISIBLE      // Just a text showing "Completed" (Non-functional Button)
@@ -136,12 +130,7 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
         holder.studentName.setOnClickListener {
             holder.vibrator.vibrate(50)
             val intent=Intent(context, student_details::class.java)
-            intent.putExtra("name", arrAcceptedRequest[position].studentName)
-            intent.putExtra("branch", arrAcceptedRequest[position].branch)
-            intent.putExtra("enrollmentNo", arrAcceptedRequest[position].enrollmentNo)
-            intent.putExtra("year", arrAcceptedRequest[position].year)
-            intent.putExtra("hostel", arrAcceptedRequest[position].hostel)
-            intent.putExtra("phoneNo", arrAcceptedRequest[position].phoneNo)
+            intent.putExtra("userID", arrAcceptedRequest[position].placed_by)
             context.startActivity(intent)
         }
 
@@ -151,7 +140,7 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
             holder.verifyOtp.setText("Verifying OTP...")
 
             val otp=holder.otpEditText.text
-            val orderId=arrAcceptedRequest[position].orderId
+            val orderId=arrAcceptedRequest[position].custom_order_id
 
             jsonObject= JSONObject()
             jsonObject.put("orderId", orderId)

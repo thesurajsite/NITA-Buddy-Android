@@ -43,9 +43,6 @@ class myRequest_RecyclerAdapter(val context: Context,
         val recyclerLayout=itemView.findViewById<LinearLayout>(R.id.myRequestLayout)
         //VIBRATOR VIBRATOR VIBRATOR
         val vibrator = itemView.context.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
-
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -57,8 +54,6 @@ class myRequest_RecyclerAdapter(val context: Context,
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        val sharedPreferences= SharedPreferencesManager(context)
 
         holder.orderId.text=arrMyRequest[position].custom_order_id
         holder.orderTime.text=arrMyRequest[position].created_at

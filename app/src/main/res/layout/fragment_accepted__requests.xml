@@ -67,6 +67,15 @@
                     android:layout_marginLeft="@dimen/_10sdp"
                     android:layout_marginRight="@dimen/_10sdp" />
 
+                <ImageView
+                  android:visibility="gone"
+                  android:id="@+id/nothing_to_show_image"
+                  android:layout_width="@dimen/_200sdp"
+                  android:layout_height="@dimen/_200sdp"
+                  android:src="@drawable/nothing_to_show"
+                  android:layout_gravity="center_horizontal"
+                  android:layout_marginTop="@dimen/_20sdp"/>
+
             </androidx.cardview.widget.CardView>
 
             <FrameLayout

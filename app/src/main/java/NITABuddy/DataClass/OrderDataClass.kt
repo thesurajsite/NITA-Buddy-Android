@@ -46,3 +46,9 @@ data class AllOrderResponseDataClass(
     val orders: List<OrderDataClass>
 )
 
+data class AcceptedOrderResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?="",
+    val orders: List<OrderDataClass>
+)
+

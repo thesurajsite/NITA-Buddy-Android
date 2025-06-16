@@ -11,11 +11,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
-import com.gharaana.nitabuddy.R
 import com.gharaana.nitabuddy.databinding.FragmentHomeBinding
 import NITABuddy.Activities.myInterface
 import NITABuddy.Activities.studentRequest_RecyclerAdapter
@@ -23,9 +18,6 @@ import NITABuddy.DataClass.OrderDataClass
 import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.Retrofit.RetrofitService
 import NITABuddy.ViewModels.OrderViewModel
-import com.android.volley.DefaultRetryPolicy
-import org.json.JSONObject
-
 
 class Home_fragment : Fragment(), myInterface {
 

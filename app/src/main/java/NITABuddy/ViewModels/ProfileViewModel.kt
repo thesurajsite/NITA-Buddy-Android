@@ -43,5 +43,33 @@ class ProfileViewModel(): ViewModel(){
         }
     }
 
+    fun getUserProfileFromID(retrofitService: RetrofitService, userID: String) {
+        viewModelScope.launch {
+            try {
+                val response = retrofitService.getUserProfileFromID(userID)
+                if (response.isSuccessful) {
+                    val userProfileResponse = response.body()
+                    _userProfileResponse.postValue(userProfileResponse!!)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    var errorMessage = "Unknown error"
+
+                    if (!errorBody.isNullOrEmpty()) {
+                        try {
+                            val jsonObject = JSONObject(errorBody)
+                            errorMessage = jsonObject.optString("message")
+                        } catch (e: Exception) {
+                            errorMessage = "Failed to parse error response"
+                        }
+                    }
+
+                    _userProfileResponse.postValue(UserProfileResponseDataClass(false, errorMessage, UserDataClass()))
+                }
+            } catch (e: Exception) {
+                _userProfileResponse.postValue(UserProfileResponseDataClass(false, "Error: ${e.localizedMessage}", UserDataClass()))
+            }
+        }
+    }
+
 
 }

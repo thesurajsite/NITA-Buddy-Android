@@ -1,6 +1,8 @@
 package NITABuddy.Activities
 
-import android.content.Context
+import NITABuddy.Retrofit.RetrofitInstance
+import NITABuddy.Retrofit.RetrofitService
+import NITABuddy.ViewModels.ProfileViewModel
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -8,35 +10,43 @@ import android.os.Vibrator
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.lifecycleScope
 import com.gharaana.nitabuddy.databinding.ActivityStudentDetailsBinding
 
 class student_details : AppCompatActivity() {
 
     private lateinit var binding: ActivityStudentDetailsBinding
+    private lateinit var profileViewModel: ProfileViewModel
+    private lateinit var retrofitService: RetrofitService
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         binding = ActivityStudentDetailsBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // THIS ACTIVITY CONTAINS  THE DETAILS OF THE STUDENTS WHO CREATED A REQUEST
-        // WHEN SOMEONE CLICKS ON THE STUDENT NAME FROM THE "REQUESTS FOR YOU" SECTION, THEY WILL COME HERE
-
         val vibrator = getSystemService(VIBRATOR_SERVICE) as Vibrator
+        profileViewModel = ProfileViewModel()
+        retrofitService = RetrofitInstance.retrofitService
 
-        val name= intent.getStringExtra("name")
-        val branch= intent.getStringExtra("branch")
-        val enrollmentNo= intent.getStringExtra("enrollmentNo")
-        val year= intent.getStringExtra("year")
-        val hostel= intent.getStringExtra("hostel")
-        val phoneNo= intent.getStringExtra("phoneNo")
 
-        binding.nameTv.text=name
-        binding.branchTv.text=branch
-        binding.enrollmentTv.text=enrollmentNo
-        binding.yearTv.text=year
-        binding.hostelTv.text=hostel
-        binding.phoneTv.text=phoneNo
+        val userID= intent.getStringExtra("placedByID")
+        profileViewModel.getUserProfileFromID(retrofitService, userID.toString())
+
+        var phoneNo = ""
+        profileViewModel.userProfileResponse.observe(this) { response->
+            if(response.status==true){
+                val userDetails = response.user
+
+                binding.nameTv.text = userDetails.name.toString()
+                binding.enrollmentTv.text = userDetails.enrollment.toString()
+                binding.branchTv.text = userDetails.branch.toString()
+                binding.yearTv.text = userDetails.year.toString()
+                binding.hostelTv.text = userDetails.hostel.toString()
+                binding.phoneTv.text = userDetails.phone.toString()
+                phoneNo = userDetails.phone.toString()
+            }
+        }
 
         binding.callCardView.setOnClickListener {
             vibrator.vibrate(50)

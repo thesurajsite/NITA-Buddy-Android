@@ -37,6 +37,11 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Response<UserProfileResponseDataClass>
 
+    @GET("profile/{id}")
+    suspend fun getUserProfileFromID(
+        @Path("id") id: String
+    ): Response<UserProfileResponseDataClass>
+
 
     @POST("/order")
     suspend fun placeOrder(

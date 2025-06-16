@@ -110,15 +110,9 @@ class studentRequest_RecyclerAdapter(
 
         holder.studentName.setOnClickListener {
             holder.vibrator.vibrate(50)
-//            val intent=Intent(context, student_details::class.java)
-//            intent.putExtra("name", arrStudentRequest[position].studentName)
-//            intent.putExtra("branch", arrStudentRequest[position].branch)
-//            intent.putExtra("enrollmentNo", arrStudentRequest[position].enrollmentNo)
-//            intent.putExtra("year", arrStudentRequest[position].year)
-//            intent.putExtra("hostel", arrStudentRequest[position].hostel)
-//            intent.putExtra("phoneNo", arrStudentRequest[position].phoneNo)
-//            context.startActivity(intent)
-
+            val intent=Intent(context, student_details::class.java)
+            intent.putExtra("placedByID", arrStudentRequest[position].placed_by)
+            context.startActivity(intent)
         }
 
 

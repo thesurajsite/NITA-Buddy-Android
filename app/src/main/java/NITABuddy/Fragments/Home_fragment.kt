@@ -80,7 +80,10 @@ class Home_fragment : Fragment(), myInterface {
 
         orderViewModel.fetchAllOrders(retrofitService, token)
         orderViewModel.allOrderResponse.observe(viewLifecycleOwner) { response->
+
+            binding.ProgressBar.visibility= View.GONE
             Toast.makeText(context, response.message, Toast.LENGTH_SHORT).show()
+
             if(response.status==true){
                 val allOrders = response.orders
                 arrStudentRequest.clear()

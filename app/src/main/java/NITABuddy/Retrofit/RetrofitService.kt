@@ -10,6 +10,7 @@ import NITABuddy.DataClass.AllOrderResponseDataClass
 import NITABuddy.DataClass.CancelMyOrderResponseDataClass
 import NITABuddy.DataClass.CreateOrderRequestDataClass
 import NITABuddy.DataClass.CreateOrderResponseDataClass
+import NITABuddy.DataClass.FetchRewardsResponseDataClass
 import NITABuddy.DataClass.MyOrderResponseDataClass
 import NITABuddy.DataClass.UserProfileResponseDataClass
 import retrofit2.Response
@@ -83,5 +84,10 @@ interface RetrofitService {
     suspend fun fetchAcceptedOrders(
         @Header("Authorization") token: String
     ): Response<AcceptedOrderResponseDataClass>
+
+    @GET("/rewards")
+    suspend fun fetchRewards(
+        @Header("Authorization") token: String
+    ): Response<FetchRewardsResponseDataClass>
 
 }

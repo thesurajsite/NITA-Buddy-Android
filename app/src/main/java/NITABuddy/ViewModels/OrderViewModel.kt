@@ -4,6 +4,8 @@ import NITABuddy.DataClass.AcceptOrderResponseDataClass
 import NITABuddy.DataClass.AcceptedOrderResponseDataClass
 import NITABuddy.DataClass.AllOrderResponseDataClass
 import NITABuddy.DataClass.CancelMyOrderResponseDataClass
+import NITABuddy.DataClass.CompleteOrderRequestDataClass
+import NITABuddy.DataClass.CompleteOrderResponseDataClass
 import NITABuddy.DataClass.CreateOrderRequestDataClass
 import NITABuddy.DataClass.CreateOrderResponseDataClass
 import NITABuddy.DataClass.MyOrderResponseDataClass
@@ -36,7 +38,8 @@ class OrderViewModel() : ViewModel() {
     private val _acceptedOrderResponse = MutableLiveData<AcceptedOrderResponseDataClass>()
     val acceptedOrderResponse: LiveData<AcceptedOrderResponseDataClass> get() = _acceptedOrderResponse
 
-
+    private val _completeOrderResponse = MutableLiveData<CompleteOrderResponseDataClass>()
+    val completeOrderResponse: LiveData<CompleteOrderResponseDataClass> get() = _completeOrderResponse
 
     fun placeOrder(retrofitService: RetrofitService, token: String, order: CreateOrderRequestDataClass) {
         viewModelScope.launch {
@@ -210,4 +213,31 @@ class OrderViewModel() : ViewModel() {
         }
     }
 
+    fun completeOrder(retrofitService: RetrofitService, token: String, orderID: String, otp: String) {
+        viewModelScope.launch {
+            try {
+                val response = retrofitService.completeOrder(token, CompleteOrderRequestDataClass(orderID, otp))
+                if (response.isSuccessful) {
+                    val completeOrderResponse = response.body()
+                    _completeOrderResponse.postValue(completeOrderResponse!!)
+                } else {
+                    val errorBody = response.errorBody()?.string()
+                    var errorMessage = "Unknown error"
+
+                    if (!errorBody.isNullOrEmpty()) {
+                        try {
+                            val jsonObject = JSONObject(errorBody)
+                            errorMessage = jsonObject.optString("message")
+                        } catch (e: Exception) {
+                            errorMessage = "Failed to parse error response"
+                        }
+                    }
+
+                    _completeOrderResponse.postValue(CompleteOrderResponseDataClass(false, errorMessage))
+                }
+            } catch (e: Exception) {
+                _completeOrderResponse.postValue(CompleteOrderResponseDataClass(false, e.localizedMessage))
+            }
+        }
+    }
 }

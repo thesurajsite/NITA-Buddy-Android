@@ -43,18 +43,6 @@ class MainActivity : AppCompatActivity() {
     lateinit var binding: ActivityMainBinding
     private lateinit var SharedPreferencesManager: SharedPreferencesManager
     private lateinit var vibrator: Vibrator
-//    private lateinit var jsonObject: JSONObject
-    fun <T> addtoRequestQueue(request: Request<T>, timeoutMillis: Int) {
-        request.retryPolicy = DefaultRetryPolicy( timeoutMillis,
-            DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-            DefaultRetryPolicy.DEFAULT_BACKOFF_MULT )
-        requestQueue.add(request)
-    }
-
-    private val requestQueue: RequestQueue by lazy {
-        Volley.newRequestQueue(this)
-
-    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -98,50 +86,13 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun replaceFragment(fragment: Fragment){
+    fun replaceFragment(fragment: Fragment){
        val fragmentManager=supportFragmentManager
        val fragmentTransaction=fragmentManager.beginTransaction()
        fragmentTransaction.replace(R.id.frameLayout, fragment)
        fragmentTransaction.commit()
        vibrator.vibrate(50)
-   }
-
-
-//    // TOken Expire check API
-//    private fun checkTokenStatus() {
-//        jsonObject= JSONObject()
-//        val url = "https://gharaanah.onrender.com/engineering/tokenauth"
-//        val request = object : StringRequest(
-//            Method.POST, url,
-//            { response ->
-//                val isTokenValid = response.toBoolean()
-//
-//                if (isTokenValid){
-//                    //Nothing to do
-//                    //Toast.makeText(this, "Login Valid", Toast.LENGTH_SHORT).show()
-//                }
-//                else{
-//                    Toast.makeText(this, "Login Expired", Toast.LENGTH_SHORT).show()
-//                    logout()
-//                }
-//            },
-//            {
-//                Log.d("expire check error", "Error: $it")
-//                Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
-//            }
-//        ) {
-//            // Override getHeaders to add the Authorization header
-//            override fun getHeaders(): MutableMap<String, String> {
-//                val headers = HashMap<String, String>()
-//                val token = SharedPreferencesManager.getUserToken()
-//                headers["Authorization"] = "Bearer $token"
-//                return headers
-//            }
-//        }
-//
-//        addtoRequestQueue(request, 30000)
-//
-//    }
+    }
 
     private fun logout() {
         SharedPreferencesManager.updateLoginState(false)

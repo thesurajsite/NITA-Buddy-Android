@@ -49,10 +49,10 @@ class Rewards_Fragment : Fragment() {
 
             if(response.status==true){
                 val coins = response.coins
-                binding.coins.text = coins.toString()
+                binding.coins.text = "$coins Coins"
             }
             else{
-                binding.coins.text = "0"
+                binding.coins.text = "0 Coins"
             }
         }
 

@@ -1,13 +1,12 @@
-package NITABuddy.Activities
+package NITABuddy.Adapters
 
 
+import NITABuddy.Activities.student_details
 import NITABuddy.DataClass.OrderDataClass
-import NITABuddy.SharedPreferences.SharedPreferencesManager
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Vibrator
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,34 +17,14 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.R
-import org.json.JSONObject
 
-class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedRequest: ArrayList<OrderDataClass>) : RecyclerView.Adapter<acceptedRequest_RecyclerAdapter.ViewHolder>() {
-
-    private lateinit var jsonObject: JSONObject
-    private lateinit var SharedPreferencesManager: SharedPreferencesManager
-
-    fun <T> addtoRequestQueue(request: Request<T>){
-        requestQueue.add(request)
-    }
-
-    private val requestQueue: RequestQueue by lazy {
-        Volley.newRequestQueue(context)
-    }
-
-    init {
-        SharedPreferencesManager= SharedPreferencesManager(context)
-    }
-
+class acceptedRequest_RecyclerAdapter(val context: Context,
+                                      val arrAcceptedRequest: ArrayList<OrderDataClass>,
+                                      val onVerifyOtpClicked: (String, String) -> Unit
+) : RecyclerView.Adapter<acceptedRequest_RecyclerAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-
-
 
         // FROM RECYCLER VIEW LAYOUT
         val studentName=itemView.findViewById<TextView>(R.id.studentName)
@@ -139,55 +118,11 @@ class acceptedRequest_RecyclerAdapter(val context: Context,val arrAcceptedReques
             holder.vibrator.vibrate(50)
             holder.verifyOtp.setText("Verifying OTP...")
 
-            val otp=holder.otpEditText.text
-            val orderId=arrAcceptedRequest[position].custom_order_id
+            val otp = holder.otpEditText.text.toString()
+            val orderId = arrAcceptedRequest[position].id.toString()
 
-            jsonObject= JSONObject()
-            jsonObject.put("orderId", orderId)
-            jsonObject.put("otp", otp)
-            val url = "https://gharaanah.onrender.com/engineering/completerequest"
-            val request = object : JsonObjectRequest(
-                Method.POST, url, jsonObject,
-                { jsonData ->
-                    val action = jsonData.getBoolean("action")
-                    if(action){
-                        val response = jsonData.getString("response")
-                        holder.verifyOtp.visibility=View.GONE
-                        holder.otpEditText.visibility=View.GONE
-                        holder.completeRequests.visibility=View.GONE        //enables otp editText
-                        holder.completedButton.visibility=View.VISIBLE      // Just a text showing "Completed" (Non-functional Button)
-                        Toast.makeText(context, "Order Completed, Please Refresh...", Toast.LENGTH_SHORT).show()
-                    }
-                    else{
-                        Toast.makeText(context, "Incorrect OTP", Toast.LENGTH_SHORT).show()
-                        holder.verifyOtp.setText("Verify Again")
-                    }
-
-                },
-                {
-                    Toast.makeText(context, "Some Error Occured", Toast.LENGTH_SHORT).show()
-                    Log.w("complete-request", "${it.message}")
-                }
-            ){
-                override fun getHeaders(): MutableMap<String, String> {
-                    val headers = HashMap<String, String>()
-                    val token=SharedPreferencesManager.getUserToken()
-                    headers["Authorization"] = "Bearer $token"
-                    return headers
-                }
-
-            }
-
-            addtoRequestQueue(request)
+            onVerifyOtpClicked(orderId, otp)
 
         }
-
-
-
-
-
     }
-
-
-
 }

@@ -1,28 +1,18 @@
 package NITABuddy.Authentication
 
 import NITABuddy.Activities.MainActivity
-import NITABuddy.Activities.SignUp_Data
-import NITABuddy.Activities.SignUp_Interface
 import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.SharedPreferences.SharedPreferencesManager
 import android.R
 import android.content.Intent
 import android.os.Bundle
 import android.os.Vibrator
-import android.util.Log
 import android.view.View
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.observe
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.JsonObjectRequest
-import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.databinding.ActivityUserSignUpBinding
-import org.json.JSONObject
 
 class User_SignUp : AppCompatActivity() {
     lateinit var binding: ActivityUserSignUpBinding

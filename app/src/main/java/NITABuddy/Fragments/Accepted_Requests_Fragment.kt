@@ -7,14 +7,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
-import NITABuddy.Activities.acceptedRequest_RecyclerAdapter
+import NITABuddy.Adapters.acceptedRequest_RecyclerAdapter
 import NITABuddy.DataClass.OrderDataClass
 import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.Retrofit.RetrofitService
 import NITABuddy.ViewModels.OrderViewModel
 import android.widget.Toast
 import com.gharaana.nitabuddy.databinding.FragmentAcceptedRequestsBinding
-import org.json.JSONObject
 
 class Accepted_Requests_Fragment : Fragment() {
 
@@ -44,12 +43,27 @@ class Accepted_Requests_Fragment : Fragment() {
             binding.swipeRefreshLayout.isRefreshing=false
         }
 
+        // Observer CompleteOrder live data for response, when verify order is clicked
+        orderViewModel.completeOrderResponse.observe(viewLifecycleOwner) { response ->
+            Toast.makeText(requireContext(), response.message, Toast.LENGTH_SHORT).show()
+            if(response.status==true) fetchAcceptedRequests() // Refresh
+        }
+
         return binding.root
     }
 
     private fun acceptedRequestRecyclerView() {
+        val token = sharedPreferences.getUserToken()
         arrAcceptedRequest= ArrayList()
-        adapter= acceptedRequest_RecyclerAdapter(requireContext(), arrAcceptedRequest)
+        adapter = acceptedRequest_RecyclerAdapter(  // Adapter Initialization and Callback
+            requireContext(),
+            arrAcceptedRequest,
+            onVerifyOtpClicked = { orderId, otp ->
+                orderViewModel.completeOrder(retrofitService, token, orderId, otp)
+            }
+        )
+
+
         binding.acceptedRequestRecyclerView.adapter=adapter
         binding.acceptedRequestRecyclerView.layoutManager= LinearLayoutManager(requireContext())
     }

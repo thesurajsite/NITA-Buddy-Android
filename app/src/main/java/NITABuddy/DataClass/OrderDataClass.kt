@@ -52,3 +52,13 @@ data class AcceptedOrderResponseDataClass(
     val orders: List<OrderDataClass>
 )
 
+data class CompleteOrderRequestDataClass(
+    val orderId: String?="",
+    val otp: String?=""
+)
+
+data class CompleteOrderResponseDataClass(
+    val status: Boolean?=false,
+    val message: String?=""
+)
+

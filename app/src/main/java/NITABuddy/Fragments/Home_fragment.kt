@@ -4,7 +4,6 @@ import NITABuddy.SharedPreferences.SharedPreferencesManager
 import android.content.Context.VIBRATOR_SERVICE
 import android.os.Bundle
 import android.os.Vibrator
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -13,7 +12,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.gharaana.nitabuddy.databinding.FragmentHomeBinding
 import NITABuddy.Activities.myInterface
-import NITABuddy.Activities.studentRequest_RecyclerAdapter
+import NITABuddy.Adapters.studentRequest_RecyclerAdapter
 import NITABuddy.DataClass.OrderDataClass
 import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.Retrofit.RetrofitService

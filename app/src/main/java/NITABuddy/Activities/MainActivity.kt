@@ -15,11 +15,6 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.android.volley.DefaultRetryPolicy
-import com.android.volley.Request
-import com.android.volley.RequestQueue
-import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.gharaana.nitabuddy.R
 import com.gharaana.nitabuddy.databinding.ActivityMainBinding
 import com.google.android.play.core.appupdate.AppUpdateManager
@@ -32,7 +27,7 @@ import com.google.android.play.core.ktx.isFlexibleUpdateAllowed
 import com.google.android.play.core.ktx.isImmediateUpdateAllowed
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import org.json.JSONObject
+
 import kotlin.time.Duration.Companion.seconds
 
 class MainActivity : AppCompatActivity() {
@@ -41,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appUpdateManager: AppUpdateManager
     private val updateType= AppUpdateType.FLEXIBLE
     lateinit var binding: ActivityMainBinding
-    private lateinit var SharedPreferencesManager: SharedPreferencesManager
+    private lateinit var sharedPreferences: SharedPreferencesManager
     private lateinit var vibrator: Vibrator
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,18 +44,16 @@ class MainActivity : AppCompatActivity() {
         binding=ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences = SharedPreferencesManager(this)
+        vibrator=getSystemService(VIBRATOR_SERVICE) as Vibrator
         appUpdateManager= AppUpdateManagerFactory.create(applicationContext)
         if(updateType==AppUpdateType.FLEXIBLE){
             appUpdateManager.registerListener(installStateUpdateListener)
         }
 
 
-
-        SharedPreferencesManager= SharedPreferencesManager(this)
-        vibrator=getSystemService(VIBRATOR_SERVICE) as Vibrator
-
         //If User Not Logged In, Send it to Login Activity
-        if(SharedPreferencesManager.getLoginState()==false){
+        if(sharedPreferences.getLoginState()==false){
             startActivity(Intent(this, User_Login_Activity::class.java))
             finish()
         }
@@ -92,13 +85,6 @@ class MainActivity : AppCompatActivity() {
        fragmentTransaction.replace(R.id.frameLayout, fragment)
        fragmentTransaction.commit()
        vibrator.vibrate(50)
-    }
-
-    private fun logout() {
-        SharedPreferencesManager.updateLoginState(false)
-        SharedPreferencesManager.updateUserToken("")
-        startActivity(Intent(this, User_Login_Activity::class.java))
-        finish()
     }
 
     private val installStateUpdateListener= InstallStateUpdatedListener{ state->

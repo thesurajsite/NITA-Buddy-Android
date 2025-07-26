@@ -53,7 +53,7 @@ data class AcceptedOrderResponseDataClass(
 )
 
 data class CompleteOrderRequestDataClass(
-    val orderId: String?="",
+    val order_id: String?="",
     val otp: String?=""
 )
 

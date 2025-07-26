@@ -120,7 +120,6 @@ class acceptedRequest_RecyclerAdapter(val context: Context,
 
             val otp = holder.otpEditText.text.toString()
             val orderId = arrAcceptedRequest[position].id.toString()
-
             onVerifyOtpClicked(orderId, otp)
 
         }

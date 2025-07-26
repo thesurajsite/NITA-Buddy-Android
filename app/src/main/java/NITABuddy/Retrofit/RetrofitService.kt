@@ -92,7 +92,7 @@ interface RetrofitService {
         @Header("Authorization") token: String
     ): Response<FetchRewardsResponseDataClass>
 
-    @POST("/completeOrder")
+    @PUT("/completeOrder")
     suspend fun completeOrder(
         @Header("Authorization") token : String,
         @Body completeOrderRequest: CompleteOrderRequestDataClass

@@ -10,7 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.gharaana.nitabuddy.databinding.FragmentHomeBinding
+import com.surajverma.nitabuddy.databinding.FragmentHomeBinding
 import NITABuddy.Activities.myInterface
 import NITABuddy.Adapters.studentRequest_RecyclerAdapter
 import NITABuddy.DataClass.OrderDataClass

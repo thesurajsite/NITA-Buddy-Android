@@ -15,8 +15,8 @@ import android.util.Log
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
-import com.gharaana.nitabuddy.R
-import com.gharaana.nitabuddy.databinding.ActivityMainBinding
+import com.surajverma.nitabuddy.R
+import com.surajverma.nitabuddy.databinding.ActivityMainBinding
 import com.google.android.play.core.appupdate.AppUpdateManager
 import com.google.android.play.core.appupdate.AppUpdateManagerFactory
 import com.google.android.play.core.install.InstallStateUpdatedListener

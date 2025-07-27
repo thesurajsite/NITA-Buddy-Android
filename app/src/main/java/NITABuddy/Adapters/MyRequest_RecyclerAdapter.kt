@@ -13,7 +13,7 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.gharaana.nitabuddy.R
+import com.surajverma.nitabuddy.R
 
 class myRequest_RecyclerAdapter(val context: Context,
                                 val arrMyRequest: ArrayList<OrderDataClass>,

@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.gharaana.nitabuddy"
+    namespace = "com.surajverma.nitabuddy"
     compileSdk = 35
 
     defaultConfig {
-        applicationId = "com.gharaana.nitabuddy"
+        applicationId = "com.surajverma.nitabuddy"
         minSdk = 26
         targetSdk = 34
         versionCode = 7

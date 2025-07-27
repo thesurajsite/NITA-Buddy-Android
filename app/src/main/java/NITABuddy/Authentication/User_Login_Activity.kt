@@ -17,7 +17,7 @@ import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
-import com.gharaana.nitabuddy.databinding.ActivityUserLoginBinding
+import com.surajverma.nitabuddy.databinding.ActivityUserLoginBinding
 import org.json.JSONObject
 
 class User_Login_Activity : AppCompatActivity() {

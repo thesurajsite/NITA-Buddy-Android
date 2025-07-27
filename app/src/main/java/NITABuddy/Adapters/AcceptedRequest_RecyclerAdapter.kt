@@ -17,7 +17,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.gharaana.nitabuddy.R
+import com.surajverma.nitabuddy.R
 
 class acceptedRequest_RecyclerAdapter(val context: Context,
                                       val arrAcceptedRequest: ArrayList<OrderDataClass>,

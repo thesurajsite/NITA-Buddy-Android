@@ -13,7 +13,7 @@ import NITABuddy.Retrofit.RetrofitInstance
 import NITABuddy.Retrofit.RetrofitService
 import NITABuddy.ViewModels.OrderViewModel
 import android.widget.Toast
-import com.gharaana.nitabuddy.databinding.FragmentAcceptedRequestsBinding
+import com.surajverma.nitabuddy.databinding.FragmentAcceptedRequestsBinding
 
 class Accepted_Requests_Fragment : Fragment() {
 

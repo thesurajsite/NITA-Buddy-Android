@@ -16,7 +16,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
-import com.gharaana.nitabuddy.R
+import com.surajverma.nitabuddy.R
 import org.json.JSONObject
 
 class studentRequest_RecyclerAdapter(

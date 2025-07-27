@@ -12,7 +12,7 @@ import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
-import com.gharaana.nitabuddy.databinding.ActivityUserSignUpBinding
+import com.surajverma.nitabuddy.databinding.ActivityUserSignUpBinding
 
 class User_SignUp : AppCompatActivity() {
     lateinit var binding: ActivityUserSignUpBinding
